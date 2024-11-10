@@ -40,6 +40,17 @@ void OverrideProperty(const char* name, const char* value) {
 void vendor_load_properties() {
     auto device = GetProperty("ro.product.product.device", "");
     auto rf_version = std::stoi(GetProperty("ro.boot.rf_version", "0"));
+    auto prjname = std::stoi(GetProperty("ro.boot.prjname", "0"));
+
+    switch (prjname) {
+        case 21732: // IN
+            if (device == "RMX3371") {
+                OverrideProperty("ro.product.product.model", "RMX3371");
+            }
+            break;
+        default:
+            LOG(ERROR) << "Unexpected prjname: " << prjname;
+    }
 
     switch (rf_version) {
         case 11: // CN
